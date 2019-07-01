@@ -10,28 +10,19 @@ int main() {
             break;
         }
 
-        int a, n;
-        int max = 0;
+        for (int n = (int) std::sqrt(2 * b); n > 0; n--) {
+            auto a = [=]() { return (2 * b / n - n + 1) / 2; };
 
-        for (int i = 1; std::sqrt(2 * b) > i; i++) {
-            if (((2 * b) % i) == 0) {
-                if ((((2 * b) / i - i + 1) % 2) == 0) {
-                    max = std::max(max, [=]() {
-                        if (((2 * b / i - i + 1) / 2) >= 0) {
-                            return i;
-                        } else {
-                            return 0;
-                        }
-                    }());
-                }
+            auto is_2b_divisor_n = [&]() { return !(2 * b % n); };
+            auto is_a_integer = [&]() { return !(2 * b / n - n + 1 & 1); };
+
+            auto is_answer = [&]() { return is_2b_divisor_n() && is_a_integer(); };
+
+            if (is_answer()) {
+                std::cout << a() << " " << n << std::endl;
+                break;
             }
         }
-
-        n = max;
-        a = (2 * b / n - n + 1) / 2;
-
-        std::cout << a << " " << n << std::endl;
     }
-
     return 0;
 }
